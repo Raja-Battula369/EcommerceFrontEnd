@@ -1,0 +1,140 @@
+.Products {
+  width: 100%;
+  height: 100%;
+  background-color: black;
+}
+.products_head {
+  color: aqua;
+}
+
+.pagination {
+  grid-column-start: 2;
+  grid-column-end: 4;
+}
+.btn {
+  width: 4rem;
+  height: 2rem;
+  margin: 0.5rem;
+  background-color: black;
+  color: white;
+  border-radius: 5px;
+  border: none;
+}
+.btnActive {
+  background-color: aqua;
+  box-shadow: 0 0 10px aqua;
+  transition-duration: 1s;
+  border-radius: 5px;
+  border: none;
+  width: 4rem;
+  height: 2rem;
+  margin: 0.5rem;
+}
+
+.productDetailsMain {
+  background-color: black;
+  height: 100%;
+}
+.mainProduct {
+  color: white;
+  padding: 1rem;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  place-items: center;
+  gap: 1rem;
+}
+
+.product_img {
+  grid-column: 0/2;
+  border-radius: 10px;
+}
+.product_img:hover {
+  box-shadow: 0 0 20px aqua;
+}
+.product_Details {
+  grid-column: 2/5;
+  place-self: start;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  color: white;
+}
+span {
+  color: rgb(202, 168, 234);
+}
+
+.remove_btn {
+  width: 12rem !important;
+  display: block;
+}
+
+.add_btn {
+  width: 12rem !important;
+  display: block;
+}
+.productDetails_img {
+  width: 500px;
+  height: 500px;
+  object-fit: cover;
+  border-radius: 10px;
+  padding: 0 0.5rem;
+}
+.relatedProducts {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  align-items: center;
+
+  gap: 1rem;
+}
+
+@media (max-width: 1000px) {
+  .pagination {
+    grid-column-start: 1;
+    /* grid-column-end */
+  }
+}
+
+@media (max-width: 935px) {
+  .mainProduct {
+    color: white;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+  }
+  .product_Details {
+    padding: 1rem;
+  }
+}
+
+@media (max-width: 920px) {
+  .relatedProducts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 520px) {
+  .relatedProducts {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 0.3rem;
+    gap: 0.3rem;
+  }
+  .productDetails_img {
+    width: 380px;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    padding: 0 0.5rem;
+  }
+}

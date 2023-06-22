@@ -1,0 +1,27 @@
+.Home {
+  height: 100%;
+  scroll-behavior: smooth;
+}
+.carousel_img_details {
+  position: absolute;
+  top: 40%;
+  left: 10%;
+  background-color: rgb(0, 255, 255);
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 5px 50px aqua;
+  opacity: 0.9;
+}
+
+@media (max-width: 520px) {
+  .carousel_img_details {
+    position: absolute;
+    top: 40%;
+    left: 10%;
+    background-color: rgb(0, 255, 255);
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 5px 50px aqua;
+    opacity: 0.9;
+  }
+}
