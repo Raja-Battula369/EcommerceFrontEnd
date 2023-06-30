@@ -8,6 +8,7 @@ import { addToCart, removeFromCart } from '../../redux/features';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import Cart from '../Cart';
+import ReactStars from 'react-rating-stars-component';
 const ProductDetails = () => {
   const [productDetailsData, setProductDetailsData] = useState({});
   const [productsData, setProductsData] = useState([]);
@@ -33,6 +34,9 @@ const ProductDetails = () => {
     FetchProducts();
   }, [productid]);
 
+  const ratingChange = (e) => {
+    console.log(e);
+  };
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -57,7 +61,7 @@ const ProductDetails = () => {
             Title: <span>{productDetailsData.title}</span>
           </h3>
           <p>
-            description: Rs <span>{productDetailsData.description} /-</span>
+            description:<span>{productDetailsData.description}</span>
           </p>
           <h3>
             Price: Rs <span>{productDetailsData.price} /-</span>
@@ -77,7 +81,7 @@ const ProductDetails = () => {
               }}
               className="remove_button remove_btn"
             >
-              remove from card
+              remove from cart
             </motion.button>
           ) : (
             <button
@@ -97,10 +101,16 @@ const ProductDetails = () => {
               add to cart
             </button>
           )}
+          {productDetailsData.rating && (
+            <ReactStars
+              value={productDetailsData.rating}
+              onChange={ratingChange}
+              count={5}
+              size={30}
+              activeColor="#ffd700"
+            />
+          )}
 
-          <b>
-            Rating:<span>{productDetailsData.rating}</span>
-          </b>
           <p>
             Category: <span>{productDetailsData.category}</span>
           </p>

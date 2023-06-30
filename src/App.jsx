@@ -8,6 +8,7 @@ import { useSelector } from 'react-redux';
 import Auth from './components/Auth/Form';
 
 const App = () => {
+  const { pathname } = useLocation();
   const ScrollToTop = () => {
     const { pathname } = useLocation();
     useEffect(() => {
@@ -16,14 +17,16 @@ const App = () => {
     return null;
   };
   const Token = Boolean(useSelector((state) => state.Token));
-
+  console.log(pathname);
   return (
     <>
       <ScrollToTop />
       {Token && <Header />}
 
       <Routes>
-        <Route path="/" element={Token ? <Home /> : <Auth />} />
+        {pathname === '/' && (
+          <Route path="/" element={Token ? <Home /> : <Auth />} />
+        )}
         <Route
           path="product/:productid"
           element={Token ? <ProductDetails /> : <Auth />}

@@ -3,18 +3,12 @@ import { useState } from 'react';
 import './Auth.css';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { Outlet, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { addToken, addUserName } from '../../redux/features';
+import LoginForm from './LoginForm';
 
 const Auth = () => {
   const [page, setPage] = useState('login');
-  const signupToast = () => toast('form is submitted');
-  const loginToast = () => toast('Home');
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
 
   const form = useForm({
     defaultValues: { name: '', email: '', password: '', passwordConfirm: '' },
@@ -25,32 +19,22 @@ const Auth = () => {
 
   const onSubmitRegister = async (data) => {
     try {
-      await axios.post('http://127.0.0.1:8001/api/signup', data);
+      await axios.post('https://backend1-ryci.onrender.com/api/signup', data);
       <ToastContainer position="top-center" />;
       setPage('login');
     } catch (error) {
       console.log(error);
     }
   };
-  const onSubmitLogin = async (data) => {
-    try {
-      const { data: res } = await axios.post(
-        'http://127.0.0.1:8001/api/login',
-        data
-      );
-      // dispatch(addUserName)
-      dispatch(addUserName(res.data.name));
-      dispatch(addToken(res.token));
-      <ToastContainer position="top-center" />;
-      navigate('/');
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
   return (
     <div className="main">
       {page === 'register' ? (
-        <form className="form" onSubmit={handleSubmit(onSubmitRegister)}>
+        <form
+          className="form"
+          key={'form1'}
+          onSubmit={handleSubmit(onSubmitRegister)}
+        >
           <strong>Signup Page</strong>
 
           <div className="form_control">
@@ -59,8 +43,13 @@ const Auth = () => {
               id="nameid"
               type="text"
               title="Name"
+              maxLength={30}
               placeholder="Enter Your Name"
               {...register('name', {
+                pattern: {
+                  value: /^[a-zA-Z]+$/,
+                  message: 'please enter valid name',
+                },
                 required: {
                   value: true,
                   message: 'name is required',
@@ -101,7 +90,13 @@ const Auth = () => {
               type="password"
               placeholder="Enter Your Password"
               title="Password"
+              maxLength={23}
               {...register('password', {
+                pattern: {
+                  value: /^(?=.*[a-zA-Z])(?=.*[!@#$%^&*])(?=.*[0-9]).+$/,
+                  message:
+                    'please enter atleast one alpha and one symbol and one number',
+                },
                 required: {
                   value: true,
                   message: 'password is required',
@@ -118,6 +113,7 @@ const Auth = () => {
               type="password"
               placeholder="reEnter Your Password"
               title="passwordConfirm"
+              maxLength={23}
               {...register('passwordConfirm', {
                 validate: (fieldValue) => {
                   return (
@@ -131,9 +127,7 @@ const Auth = () => {
           </div>
 
           <div className="btn">
-            <button onClick={signupToast} title="button">
-              Signup
-            </button>
+            <button title="button">Signup</button>
           </div>
           <b
             onClick={() => setPage('login')}
@@ -149,72 +143,8 @@ const Auth = () => {
           </b>
         </form>
       ) : (
-        <form onSubmit={handleSubmit(onSubmitLogin)} className="form">
-          <strong> Login Page</strong>
-
-          <div className="form_control">
-            <label htmlFor="emailid">Email</label>
-            <input
-              id="emailid"
-              type="email"
-              placeholder="Enter Your email"
-              title="email"
-              {...register('email', {
-                pattern: {
-                  value:
-                    /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/,
-                  message: 'Invalid email format',
-                },
-
-                validate: {
-                  emailcheck: (fieldValue) => {
-                    return fieldValue.endsWith('gmail.com') || 'Invalid email';
-                  },
-                },
-              })}
-            />
-            <p style={{ color: 'red' }}>{errors.email?.message}</p>
-          </div>
-
-          <div className="form_control">
-            <label htmlFor="passwordid">Password</label>
-            <input
-              id="passwordid"
-              type="password"
-              placeholder="Enter Your Password"
-              title="Password"
-              {...register('password', {
-                required: {
-                  value: true,
-                  message: 'password is required',
-                },
-              })}
-            />
-            <p style={{ color: 'red' }}>{errors.password?.message}</p>
-          </div>
-
-          <div className="btn">
-            <button onClick={loginToast} title="button">
-              Login
-            </button>
-          </div>
-
-          <b
-            onClick={() => setPage('register')}
-            style={{
-              textDecoration: 'underline',
-              padding: '0.5rem',
-              color: 'blue',
-              fontSize: '20px',
-              cursor: 'pointer',
-            }}
-          >
-            SignUp
-          </b>
-        </form>
+        <LoginForm setPage={setPage} />
       )}
-
-      <Outlet />
     </div>
   );
 };

@@ -61,7 +61,7 @@ const Product = ({ state }) => {
                 size={24}
                 activeColor="#ffd700"
               />
-              <h1>{product.price}</h1>
+              <h1>₹ {product.price}</h1>
               {/* {console.log(reduxCart)} */}
             </section>
           </motion.section>
