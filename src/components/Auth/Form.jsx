@@ -3,12 +3,12 @@ import { useState } from 'react';
 import './Auth.css';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { Alert, Snackbar } from '@mui/material';
 import LoginForm from './LoginForm';
 
 const Auth = () => {
   const [page, setPage] = useState('login');
+  const [open, setOpen] = useState(false);
 
   const form = useForm({
     defaultValues: { name: '', email: '', password: '', passwordConfirm: '' },
@@ -20,9 +20,10 @@ const Auth = () => {
   const onSubmitRegister = async (data) => {
     try {
       await axios.post('https://backend1-ryci.onrender.com/api/signup', data);
-      <ToastContainer position="top-center" />;
+
       setPage('login');
     } catch (error) {
+      setOpen(true);
       console.log(error);
     }
   };
@@ -127,7 +128,15 @@ const Auth = () => {
           </div>
 
           <div className="btn">
-            <button title="button">Signup</button>
+            <button title="button" style={{ fontWeight: 'bold' }}>
+              Signup
+            </button>
+
+            <Snackbar open={open} autoHideDuration={6000}>
+              <Alert severity="error" sx={{ width: '100%' }}>
+                error occured please enter unique email
+              </Alert>
+            </Snackbar>
           </div>
           <b
             onClick={() => setPage('login')}

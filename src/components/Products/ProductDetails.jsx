@@ -8,7 +8,9 @@ import { addToCart, removeFromCart } from '../../redux/features';
 import { useDispatch, useSelector } from 'react-redux';
 import { motion } from 'framer-motion';
 import Cart from '../Cart';
-import ReactStars from 'react-rating-stars-component';
+
+import styled from '@emotion/styled';
+import { Rating } from '@mui/material';
 const ProductDetails = () => {
   const [productDetailsData, setProductDetailsData] = useState({});
   const [productsData, setProductsData] = useState([]);
@@ -34,9 +36,14 @@ const ProductDetails = () => {
     FetchProducts();
   }, [productid]);
 
-  const ratingChange = (e) => {
-    console.log(e);
-  };
+  const StyledRating = styled(Rating)({
+    '& .MuiRating-iconFilled': {
+      color: '#ffd700',
+    },
+    '& .MuiRating-iconHover': {
+      color: '#ff3d47',
+    },
+  });
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -102,12 +109,12 @@ const ProductDetails = () => {
             </button>
           )}
           {productDetailsData.rating && (
-            <ReactStars
+            <StyledRating
+              name="read-only"
               value={productDetailsData.rating}
-              onChange={ratingChange}
-              count={5}
-              size={30}
-              activeColor="#ffd700"
+              readOnly
+              size="large"
+              precision={0.5}
             />
           )}
 

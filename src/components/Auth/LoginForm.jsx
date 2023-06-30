@@ -3,13 +3,16 @@
 import './Auth.css';
 import { useForm } from 'react-hook-form';
 import axios from 'axios';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+
 import { useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { addToken, addUserName } from '../../redux/features';
+import { Alert, Snackbar } from '@mui/material';
+import { useState } from 'react';
 
 const LoginForm = ({ setPage }) => {
+  const [open, setOpen] = useState(false);
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -17,7 +20,7 @@ const LoginForm = ({ setPage }) => {
     defaultValues: { email: '', password: '' },
   });
 
-  const { register, handleSubmit, formState, watch } = form;
+  const { register, handleSubmit, formState } = form;
   const { errors } = formState;
 
   const onSubmitLogin = async (data) => {
@@ -29,9 +32,10 @@ const LoginForm = ({ setPage }) => {
       // dispatch(addUserName)
       dispatch(addUserName(res.data.name));
       dispatch(addToken(res.token));
-      <ToastContainer position="top-center" />;
+
       navigate('/');
     } catch (error) {
+      setOpen(true);
       console.log(error);
     }
   };
@@ -90,8 +94,16 @@ const LoginForm = ({ setPage }) => {
         </div>
 
         <div className="btn">
-          <button title="button">Login</button>
+          <button title="button" style={{ fontWeight: 'bold' }}>
+            Login
+          </button>
         </div>
+
+        <Snackbar open={open} autoHideDuration={6000}>
+          <Alert severity="error" sx={{ width: '100%' }}>
+            error occured please enter valid email or valid password
+          </Alert>
+        </Snackbar>
 
         <b
           onClick={() => setPage('register')}

@@ -4,15 +4,22 @@ import { motion } from 'framer-motion';
 import Pagination from './Products/Pagination';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import ReactStars from 'react-rating-stars-component';
+import { Rating } from '@mui/material';
+import styled from '@emotion/styled';
 
 const Product = ({ state }) => {
   const { products } = state;
   const [page, setPage] = useState(1);
 
-  const ratingChanged = (newRating) => {
-    console.log(newRating);
-  };
+  const StyledRating = styled(Rating)({
+    '& .MuiRating-iconFilled': {
+      color: '#ffd700',
+    },
+    '& .MuiRating-iconHover': {
+      color: '#ff3d47',
+    },
+  });
+
   return (
     <motion.div
       variants={{
@@ -54,12 +61,12 @@ const Product = ({ state }) => {
             <section className="products_details">
               <p>{product.title}</p>
 
-              <ReactStars
+              <StyledRating
+                name="read-only"
                 value={product.rating}
-                count={5}
-                onChange={ratingChanged}
-                size={24}
-                activeColor="#ffd700"
+                readOnly
+                size="large"
+                precision={0.5}
               />
               <h1>₹ {product.price}</h1>
               {/* {console.log(reduxCart)} */}
